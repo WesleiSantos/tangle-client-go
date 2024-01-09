@@ -14,13 +14,13 @@ func SubmitMessage(
 	index string,
 	content string,
 	timeoutInSeconds int,
-) (*[32]byte, bool) {
+) (*iotago.MessageID, bool) {
 	node := iotago.NewNodeHTTPAPIClient(nodeUrl)
 
 	info, err := node.Info(context.Background())
 	if err != nil {
 		log.Println("Unable to get node information.")
-		return false
+		return nil, false
 	}
 
 	MessagePayload := &iotago.Indexation{
@@ -42,7 +42,7 @@ func SubmitMessage(
 		Build()
 	if err != nil {
 		log.Printf("Unable to create a new message builder.")
-		return false
+		return nil, false
 	}
 
 	message, err := node.SubmitMessage(context.Background(), messageBuilder)
