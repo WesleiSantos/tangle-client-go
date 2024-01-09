@@ -14,7 +14,7 @@ func SubmitMessage(
 	index string,
 	content string,
 	timeoutInSeconds int,
-) (*iotago.MessageID, bool) {
+) (*[32]byte, bool) {
 	node := iotago.NewNodeHTTPAPIClient(nodeUrl)
 
 	info, err := node.Info(context.Background())
