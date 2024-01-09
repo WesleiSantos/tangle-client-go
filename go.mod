@@ -1,4 +1,4 @@
-module github.com/allancapistrano/tangle-client-go
+module github.com/WesleiSantos/tangle-client-go
 
 go 1.20
 
