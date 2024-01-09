@@ -14,7 +14,7 @@ func SubmitMessage(
 	index string,
 	content string,
 	timeoutInSeconds int,
-) bool {
+) (*iotago.MessageID, bool) {
 	node := iotago.NewNodeHTTPAPIClient(nodeUrl)
 
 	info, err := node.Info(context.Background())
@@ -45,10 +45,17 @@ func SubmitMessage(
 		return false
 	}
 
-	if _, err := node.SubmitMessage(context.Background(), messageBuilder); err != nil {
+	message, err := node.SubmitMessage(context.Background(), messageBuilder)
+	if err != nil {
 		log.Println("Unable to submit new message.")
-		return false
+		return nil, false
 	}
 
-	return true
+	messageID, err := message.ID()
+	if err != nil {
+		log.Println("Unable to get message ID.")
+		return nil, false
+	}
+
+	return messageID, true
 }
